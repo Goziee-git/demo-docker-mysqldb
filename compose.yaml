@@ -1,0 +1,22 @@
+
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: prospa
+      MYSQL_USER: prospa
+      MYSQL_PASSWORD: prospa
+      MYSQL_DATA: var/lib/mysql/sqlvol
+      vol: var/sqlvol:/var/lib/mysql/sqlvol
+      v: ./grant-permissions.sql:/docker-entrypoint-initdb.d/grant-permissions.sql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--silent"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
